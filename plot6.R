@@ -12,16 +12,17 @@ plot6 <- function(){
     pm25  <- readRDS("summarySCC_PM25.rds")
     pm25scc <- readRDS("Source_Classification_Code.rds")
     
-    #subset baltimore
+    #subset baltimore and los angeles
     pm25bm <-  pm25[pm25$fips == 24510, ]
     pm25la <- pm25[pm25$fips == "06037", ]
     
+    #match SCC to Vehicle SCC for both locations
     pm25sccVehicle  <- pm25scc[pm25scc$SCC.Level.Two %like% "Vehicle", ]
     
     pm25Vehiclebm <- pm25bm[pm25bm$SCC %in% pm25sccVehicle$SCC, ]
     pm25Vehiclela <- pm25la[pm25la$SCC %in% pm25sccVehicle$SCC, ]
     
-    
+    #create emissions totals for each location
     pollutionbm <-  c(sum(pm25Vehiclebm[pm25Vehiclebm$year == 1999, ]$Emissions),
                     sum(pm25Vehiclebm[pm25Vehiclebm$year == 2002, ]$Emissions),
                     sum(pm25Vehiclebm[pm25Vehiclebm$year == 2005, ]$Emissions),
@@ -34,11 +35,10 @@ plot6 <- function(){
     
     years <- c("1999", "2002", "2005", "2008")
     
+    #create data tables and bind them together
     data <- data.table("years"=years, "emissions"=pollutionbm, "city"="Baltimore")
     data2 <- data.table("years"=years, "emissions"=pollutionla, "city"="Los Angeles")
-    
-    
-    
+
     data <- rbind(data,data2)
     
     png(filename="plot6.png")

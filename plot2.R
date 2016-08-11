@@ -4,6 +4,7 @@ plot2 <-  function(){
     #a plot answering this question.
     
     library(data.table)
+    
     pm25  <- readRDS("summarySCC_PM25.rds")
     
     #subsets for baltimore, fips == 24510
@@ -17,8 +18,6 @@ plot2 <-  function(){
                     sum(pm25[pm25$year == 2008, ]$Emissions))
     
     data <- data.table("years"=years, "pollution"=pollution)
-    
-    #sum(pm25[pm25$year == 1999, ]$Emissions)#
     
     png(filename="plot2.png")
     

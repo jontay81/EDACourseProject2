@@ -12,6 +12,7 @@ plot5 <- function(){
     #subset baltimore
     pm25 <-  pm25[pm25$fips == 24510, ]
     
+    #subset for motor vehicles
     pm25sccVehicle  <- pm25scc[pm25scc$SCC.Level.Two %like% "Vehicle", ]
     
     pm25Vehicle <- pm25[pm25$SCC %in% pm25sccVehicle$SCC, ]

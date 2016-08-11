@@ -12,20 +12,13 @@ plot3 <- function(){
     #subsets for baltimore, fips == 24510
     pm25 <-  pm25[pm25$fips == 24510, ]
     
-    pollutiontype <- function(pm25){
-        pollution <-  c(sum(pm25[pm25$year == 1999, ]$Emissions),
-                        sum(pm25[pm25$year == 2002, ]$Emissions),
-                        sum(pm25[pm25$year == 2005, ]$Emissions),
-                        sum(pm25[pm25$year == 2008, ]$Emissions))
-        
-        return(pollution)
-    }
-
+    #subset based on pollution type
     point <- pm25[pm25$type == "POINT", ]
     nonpoint <- pm25[pm25$type == "NONPOINT", ]
     onroad <- pm25[pm25$type == "ON-ROAD", ]
     nonroad <- pm25[pm25$type == "NON-ROAD", ]
     
+    #total emissions for each type of pollution
     point <-  c(sum(point[point$year == 1999, ]$Emissions),
                 sum(point[point$year == 2002, ]$Emissions),
                 sum(point[point$year == 2005, ]$Emissions),
@@ -48,17 +41,20 @@ plot3 <- function(){
   
     years <- c("1999", "2002", "2005", "2008")
     
+    #create data tables for each
     data <- data.table("type"="Point","years"=years, "emissions"=point)     
     data2 <- data.table("type"="Non-point","years"=years, "emissions"=nonpoint) 
     data3 <- data.table("type"="On Road","years"=years, "emissions"=onroad) 
     data4 <- data.table("type"="Non-road","years"=years, "emissions"=nonroad) 
     
+    #bind data together
     data <- rbind(data,data2)
     data <- rbind(data,data3)
     data <- rbind(data,data4)
     
     png(filename="plot3.png")
     
+    #ggplot line+point 
     print(ggplot(data=data, aes(data$years, data$emissions, col=type, group = type))
           + geom_point() + geom_line() + labs(x="Year", y="Emissions",
                                               title="Emissions by Type (1999-2008)"))
