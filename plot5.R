@@ -3,6 +3,9 @@ plot5 <- function(){
     #vehicle sources changed from 
     #1999-2008 in Baltimore City?
     
+    library(data.table)
+    library(dplyr)
+    
     pm25  <- readRDS("summarySCC_PM25.rds")
     pm25scc <- readRDS("Source_Classification_Code.rds")
     

@@ -59,7 +59,9 @@ plot3 <- function(){
     
     png(filename="plot3.png")
     
-    print(ggplot(data=data, aes(data$years, data$emissions, col=type, group = type)) + geom_point() + geom_line())
+    print(ggplot(data=data, aes(data$years, data$emissions, col=type, group = type))
+          + geom_point() + geom_line() + labs(x="Year", y="Emissions",
+                                              title="Emissions by Type (1999-2008)"))
     
     dev.off()
 }
