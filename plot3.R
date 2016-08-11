@@ -59,8 +59,7 @@ plot3 <- function(){
     
     png(filename="plot3.png")
     
-    ggplot(data=data, aes(data$year, data$emissions, col=type)) + geom_bar()
-    
+    ggplot(data=data, aes(data$years, data$emissions, col=type, group = type)) + geom_point() + geom_line()
     
     dev.off()
 }
